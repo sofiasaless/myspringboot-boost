@@ -11,7 +11,17 @@ public class SecurityConfig {
     @Bean // indica que o metodo ta sendo redefinido um objeto ja escrito por padrao
     SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
         // primeiro é necessário desabilitar o csrf
-        http.csrf(csrf -> csrf.disable());
+        http.csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> {
+
+                // para cadastrar candidato e empresa
+                auth.requestMatchers("/candidate/").permitAll().requestMatchers("/company/").permitAll();
+
+                // para as demais rotas é necessário estar autenticado
+                auth.anyRequest().authenticated();
+
+            })
+        ;
         return http.build();
     }
 
