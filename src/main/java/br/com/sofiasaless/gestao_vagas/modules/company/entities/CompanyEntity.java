@@ -1,4 +1,4 @@
-package br.com.sofiasaless.gestao_vagas.modules.candidate;
+package br.com.sofiasaless.gestao_vagas.modules.company.entities;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -14,15 +14,14 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
+@Entity(name = "company")
 @Data
-@Entity(name = "cadidate")
-public class CandidateEntity {
+public class CompanyEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String name;
-    
+
     @Pattern(regexp = "\\S+", message = "O campo [username] não devem conter espaço")
     private String username;
 
@@ -31,8 +30,9 @@ public class CandidateEntity {
 
     @Length(min = 10, max = 100)
     private String password;
+    private String website;
+    private String name;
     private String description;
-    private String curriculum;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
