@@ -17,7 +17,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> {
 
                 // para cadastrar candidato e empresa
-                auth.requestMatchers("/candidate/").permitAll().requestMatchers("/company/").permitAll();
+                auth.requestMatchers("/candidate/").permitAll().requestMatchers("/company/").permitAll().requestMatchers("/auth/company").permitAll();
 
                 // para as demais rotas é necessário estar autenticado
                 auth.anyRequest().authenticated();
