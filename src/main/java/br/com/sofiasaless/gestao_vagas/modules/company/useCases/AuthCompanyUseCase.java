@@ -1,6 +1,9 @@
 package br.com.sofiasaless.gestao_vagas.modules.company.useCases;
 
 
+import java.time.Duration;
+import java.time.Instant;
+
 import javax.naming.AuthenticationException;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -43,7 +46,8 @@ public class AuthCompanyUseCase {
         // se as senhas derem match
         Algorithm algorithm = Algorithm.HMAC256(secretKey); // passar uma secret que ninguem tenha acesso
         var token = JWT.create()
-            .withIssuer("upbusiness") //
+            .withIssuer("upbusiness") // issuer da geração do token
+            .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
             .withSubject(company.getId().toString()) // passando uma informação unica da entidade
             .sign(algorithm) // passando o algoritmo de criação do token
         ;
