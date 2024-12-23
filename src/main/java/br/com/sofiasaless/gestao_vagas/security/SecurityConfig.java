@@ -26,6 +26,7 @@ public class SecurityConfig {
                 auth.requestMatchers("/candidate/").permitAll()
                     .requestMatchers("/company/").permitAll()
                     .requestMatchers("/auth/company").permitAll()
+                    .requestMatchers("/candidate/auth").permitAll()
                 ;
                 // as rotas que não foram citadas acima estão todas protegidas, ou seja, para acessá-las é necessário estar autenticado e ter autorização
 
