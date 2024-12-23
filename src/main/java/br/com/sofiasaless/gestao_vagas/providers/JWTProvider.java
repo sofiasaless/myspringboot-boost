@@ -7,13 +7,13 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
-@Service
+@Service // serviço responsável pela validação dos tokens que vão ser mandados pelos usuários
 public class JWTProvider {
     
     @Value("${security.token.secret}")
     private String secretKey;
 
-    
+    // aqui se o token for válido ele vai retornar o subject, que foi definido como o uuid da entidade company
     public String validateToken(String token) {
         token = token.replace("Bearer ", "");
         

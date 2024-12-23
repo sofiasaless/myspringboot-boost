@@ -21,14 +21,16 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     private final JWTProvider jwtProvider;
 
+    // metodo responsavel pela filtragem após a autenticação de um usuário
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        SecurityContextHolder.getContext().setAuthentication(null);
+        SecurityContextHolder.getContext().setAuthentication(null); // setando o contexto como nulo, pois pode vir com algum lixo
 
         String header = request.getHeader("Authorization");
 
+        // se o header for diferente de null, ele deve vir com um token, esse token pode ou nao ser válido
         if (header != null) {
-            var subjectToken = this.jwtProvider.validateToken(header);
+            var subjectToken = this.jwtProvider.validateToken(header); // o subject desse token carrega o uuid da entidade company
             if (subjectToken.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;

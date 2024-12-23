@@ -22,11 +22,12 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> {
 
-                // para cadastrar candidato e empresa
+                // rotas e suas permissões
                 auth.requestMatchers("/candidate/").permitAll()
                     .requestMatchers("/company/").permitAll()
                     .requestMatchers("/auth/company").permitAll()
                 ;
+                // as rotas que não foram citadas acima estão todas protegidas, ou seja, para acessá-las é necessário estar autenticado e ter autorização
 
                 // para as demais rotas é necessário estar autenticado
                 auth.anyRequest().authenticated();

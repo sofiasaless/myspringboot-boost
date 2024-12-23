@@ -43,7 +43,7 @@ public class AuthCompanyUseCase {
             throw new AuthenticationException();
         }
 
-        // se as senhas derem match
+        // se as senhas derem match, sera gerado o token de autenticação/autorização
         Algorithm algorithm = Algorithm.HMAC256(secretKey); // passar uma secret que ninguem tenha acesso
         var token = JWT.create()
             .withIssuer("upbusiness") // issuer da geração do token
