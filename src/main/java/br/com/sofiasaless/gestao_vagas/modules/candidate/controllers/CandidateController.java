@@ -3,11 +3,11 @@ package br.com.sofiasaless.gestao_vagas.modules.candidate.controllers;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.service.annotation.GetExchange;
 
 import br.com.sofiasaless.gestao_vagas.exceptions.UserFoundException;
 import br.com.sofiasaless.gestao_vagas.modules.candidate.CandidateEntity;
@@ -38,7 +38,7 @@ public class CandidateController {
     }
 
     // rota para retornar as informações de perfil do candidato
-    @GetExchange("/profile")
+    @GetMapping("/")
     public ResponseEntity<Object> get(HttpServletRequest request) {
         var idCandidate = request.getAttribute("candidate_id");
 
