@@ -24,7 +24,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     // metodo responsavel pela filtragem após a autenticação de um usuário
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        SecurityContextHolder.getContext().setAuthentication(null); // setando o contexto como nulo, pois pode vir com algum lixo
+        // SecurityContextHolder.getContext().setAuthentication(null); // setando o contexto como nulo, pois pode vir com algum lixo
 
         String header = request.getHeader("Authorization");
 

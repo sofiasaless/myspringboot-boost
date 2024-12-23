@@ -50,7 +50,7 @@ public class AuthCandidateUseCase {
         var token = JWT.create()
             .withIssuer("upbusiness")
             .withSubject(candidate.getId().toString())
-            .withClaim("roles", Arrays.asList("candidate")) // passando as roles a partir do token
+            .withClaim("roles", Arrays.asList("CANDIDATE")) // passando as roles a partir do token
             .withExpiresAt(expiresIn)
             .sign(algorithm)
         ;
