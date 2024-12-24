@@ -8,13 +8,12 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-@Service // serviço responsável pela validação dos tokens que vão ser mandados pelos usuários
-public class JWTProvider {
-    
-    @Value("${security.token.secret}")
+@Service
+public class JWTCandidateProvider {
+
+    @Value("${security.token.secret.candidate}")
     private String secretKey;
 
-    // aqui se o token for válido ele vai retornar o subject, que foi definido como o uuid da entidade company
     public DecodedJWT validateToken(String token) {
         token = token.replace("Bearer ", "");
         

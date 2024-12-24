@@ -9,7 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import br.com.sofiasaless.gestao_vagas.providers.JWTProvider;
+import br.com.sofiasaless.gestao_vagas.providers.JWTCandidateProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,41 +18,47 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class SecurityFilter extends OncePerRequestFilter {
+public class SecurityCandidateFilter extends OncePerRequestFilter {
 
-    private final JWTProvider jwtProvider;
+    private final JWTCandidateProvider jwtCandidateProvider;
 
-    // metodo responsavel pela filtragem após a autenticação de um usuário
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // SecurityContextHolder.getContext().setAuthentication(null); // setando o contexto como nulo, pois pode vir com algum lixo
+        // SecurityContextHolder.getContext().setAuthentication(null);
 
         String header = request.getHeader("Authorization");
 
-        if (request.getRequestURI().startsWith("/company") || request.getRequestURI().startsWith("/job")) {
-            // se o header for diferente de null, ele deve vir com um token, esse token pode ou nao ser válido
+        if (request.getRequestURI().startsWith("/candidate")) {
             if (header != null) {
-                var token = this.jwtProvider.validateToken(header); // o subject desse token carrega o uuid da entidade company
+                var token = this.jwtCandidateProvider.validateToken(header);
+    
                 if (token == null) {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     return;
                 }
-
-                // mapenado roles
+    
+                request.setAttribute("candidate_id", token.getSubject());
+                // System.out.println("============ TOKEN ============");
+                // System.out.println(token.getClaim("roles"));
+            
                 var roles = token.getClaim("roles").asList(Object.class);
-                var grants = roles.stream().map(role -> new SimpleGrantedAuthority("ROLE_"+role.toString().toUpperCase())).toList();
 
-                request.setAttribute("company_id", token.getSubject());
-                
+                var grants = roles.stream()
+                .map(
+                    role -> new SimpleGrantedAuthority("ROLE_"+role.toString().toUpperCase()) 
+                ).toList();
+
+                // System.out.println("================ ROLES ================");
+                // System.out.println(grants);
+
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(token.getSubject(), null, grants);
-                
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         }
 
 
         filterChain.doFilter(request, response);
-    }
 
+    }
     
 }
