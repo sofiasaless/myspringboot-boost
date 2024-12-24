@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collections;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -31,14 +32,19 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (request.getRequestURI().startsWith("/company") || request.getRequestURI().startsWith("/job")) {
             // se o header for diferente de null, ele deve vir com um token, esse token pode ou nao ser válido
             if (header != null) {
-                var subjectToken = this.jwtProvider.validateToken(header); // o subject desse token carrega o uuid da entidade company
-                if (subjectToken.isEmpty()) {
+                var token = this.jwtProvider.validateToken(header); // o subject desse token carrega o uuid da entidade company
+                if (token == null) {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     return;
                 }
-                request.setAttribute("company_id", subjectToken);
+
+                // mapenado roles
+                var roles = token.getClaim("roles").asList(Object.class);
+                var grants = roles.stream().map(role -> new SimpleGrantedAuthority("ROLE_"+role.toString().toUpperCase())).toList();
+
+                request.setAttribute("company_id", token.getSubject());
                 
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(subjectToken, null, Collections.emptyList());
+                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(token.getSubject(), null, grants);
                 
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
