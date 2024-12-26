@@ -20,6 +20,15 @@ public class SecurityConfig {
 
     private final SecurityCandidateFilter securityCandidateFilter;
 
+    private final static String[] SWAGGER_LIST = {
+        "/swagger-ui.html",
+        "/swagger-ui/**",
+        "/v3/**",
+        "/v3/api-docs/**",
+        "/swagger-resources/**",
+        "/webjars/**"
+    };
+
     @Bean // indica que o metodo ta sendo redefinido um objeto ja escrito por padrao
     SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
         // primeiro é necessário desabilitar o csrf
@@ -31,6 +40,7 @@ public class SecurityConfig {
                     .requestMatchers("/company/").permitAll()
                     .requestMatchers("/company/auth").permitAll()
                     .requestMatchers("/candidate/auth").permitAll()
+                    .requestMatchers(SWAGGER_LIST).permitAll()
                 ;
                 // as rotas que não foram citadas acima estão todas protegidas, ou seja, para acessá-las é necessário estar autenticado e ter autorização
 
