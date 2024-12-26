@@ -10,14 +10,14 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 
 @SpringBootApplication
-@OpenAPIDefinition(
-    info = @Info(
-        title = "Gestão de vagas",
-        description = "API para gestão de vagas on-line",
-        version = "1"
-    )
-)
-@SecurityScheme(name = "jwt_auth", scheme = "bearer", bearerFormat = "JWT", type = SecuritySchemeType.HTTP, in = SecuritySchemeIn.HEADER)
+// @OpenAPIDefinition(
+//     info = @Info(
+//         title = "Gestão de vagas",
+//         description = "API para gestão de vagas on-line",
+//         version = "1"
+//     )
+// )
+// @SecurityScheme(name = "jwt_auth", scheme = "bearer", bearerFormat = "JWT", type = SecuritySchemeType.HTTP, in = SecuritySchemeIn.HEADER)
 public class GestaoVagasApplication {
 
 	public static void main(String[] args) {
