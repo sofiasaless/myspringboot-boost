@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.sofiasaless.gestao_vagas.exceptions.UserFoundException;
 import br.com.sofiasaless.gestao_vagas.modules.candidate.CandidateEntity;
 import br.com.sofiasaless.gestao_vagas.modules.candidate.CandidateRepository;
+import br.com.sofiasaless.gestao_vagas.modules.candidate.dto.ProfileCandidateResponseDTO;
 import br.com.sofiasaless.gestao_vagas.modules.candidate.useCases.CreateCandidateUseCase;
 import br.com.sofiasaless.gestao_vagas.modules.candidate.useCases.ListAllJobsByFIlterUseCase;
 import br.com.sofiasaless.gestao_vagas.modules.candidate.useCases.ProfileCandidateUseCase;
@@ -55,6 +56,20 @@ public class CandidateController {
     // rota para retornar as informações de perfil do candidato
     @GetMapping("/")
     @PreAuthorize("hasRole('CANDIDATE')")
+    @Tag(name = "Candidato", description = "Informações do candidato")
+    @Operation(
+        summary = "Perfil do candidato", 
+        description = "Essa função é reponsável por buscar as informações do perfil do candidato"
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", content = {
+            @Content(
+                schema = @Schema(implementation = ProfileCandidateResponseDTO.class)
+            )
+        }),
+        @ApiResponse(responseCode = "400", description = "User not found")
+    })
+    @SecurityRequirement(name = "jwt_auth")
     public ResponseEntity<Object> get(HttpServletRequest request) {
         var idCandidate = request.getAttribute("candidate_id");
 
