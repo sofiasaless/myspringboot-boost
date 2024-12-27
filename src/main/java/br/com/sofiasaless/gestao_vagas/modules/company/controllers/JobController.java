@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/job")
+@RequestMapping("/company/job")
 public class JobController {
     
     private final CreateJobUseCase createJobUseCase;

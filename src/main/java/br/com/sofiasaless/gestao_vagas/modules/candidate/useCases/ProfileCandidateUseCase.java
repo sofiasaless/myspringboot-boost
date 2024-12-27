@@ -5,7 +5,6 @@ import java.util.UUID;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import br.com.sofiasaless.gestao_vagas.modules.candidate.CandidateEntity;
 import br.com.sofiasaless.gestao_vagas.modules.candidate.CandidateRepository;
 import br.com.sofiasaless.gestao_vagas.modules.candidate.dto.ProfileCandidateResponseDTO;
 import lombok.RequiredArgsConstructor;
