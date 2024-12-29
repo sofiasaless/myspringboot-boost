@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
     
-    private final SecurityFilter securityFilter;
+    private final SecurityCompanyFilter securityCompanyFilter;
 
     private final SecurityCandidateFilter securityCandidateFilter;
 
@@ -51,7 +51,7 @@ public class SecurityConfig {
 
             // criando filtro para as rotas, verificando se o token do usuario permite ele ter acesso a rotas protegidas
             .addFilterBefore(securityCandidateFilter, BasicAuthenticationFilter.class)
-            .addFilterBefore(securityFilter, BasicAuthenticationFilter.class)
+            .addFilterBefore(securityCompanyFilter, BasicAuthenticationFilter.class)
         ;
         return http.build();
     }
