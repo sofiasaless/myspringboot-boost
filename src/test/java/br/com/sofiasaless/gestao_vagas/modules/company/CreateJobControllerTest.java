@@ -1,5 +1,7 @@
 package br.com.sofiasaless.gestao_vagas.modules.company;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.UUID;
 
 import org.junit.Before;
@@ -20,6 +22,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.com.sofiasaless.gestao_vagas.exceptions.CompanyNotFoundException;
 import br.com.sofiasaless.gestao_vagas.modules.company.dto.CreateJobDTO;
 import br.com.sofiasaless.gestao_vagas.modules.company.entities.CompanyEntity;
 import br.com.sofiasaless.gestao_vagas.modules.company.repositories.CompanyRepository;
@@ -75,5 +78,21 @@ public class CreateJobControllerTest {
         System.out.println(result);
     }
 
+    @Test
+    public void should_not_be_able_to_create_a_new_job_if_company_not_found() throws Exception {
+        var createJobResult = CreateJobDTO.builder()
+        .benefits("BENEFICIOS_TESTES")
+        .description("DESCRIPTION_TESTES")
+        .level("LEVEL_TESTES")
+        .build();
+
+        mvc.perform(
+                MockMvcRequestBuilders.post("/company/job/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(TestUtils.objectToJSON(createJobResult))
+                .header("Authorization", TestUtils.generateToken(UUID.randomUUID(), "UPBUSINESS_2024#"))
+            )
+        .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
 
 }
