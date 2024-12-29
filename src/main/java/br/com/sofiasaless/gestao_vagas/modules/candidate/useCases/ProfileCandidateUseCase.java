@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import br.com.sofiasaless.gestao_vagas.exceptions.UserNotFoundException;
 import br.com.sofiasaless.gestao_vagas.modules.candidate.CandidateRepository;
 import br.com.sofiasaless.gestao_vagas.modules.candidate.dto.ProfileCandidateResponseDTO;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class ProfileCandidateUseCase {
 
     public ProfileCandidateResponseDTO execute(UUID idCandidate) {
         var candidate = this.candidateRepository.findById(idCandidate).orElseThrow(() -> {
-            throw new UsernameNotFoundException("User not found");
+            throw new UserNotFoundException();
         });
 
         return ProfileCandidateResponseDTO.builder()
